@@ -31,12 +31,17 @@ namespace VehicleWebApi.DAL.Repositories
 
         public async Task<int> Create(T entity)
         {
+            entity.DateCreated = DateTime.Now;
+            entity.DateUpdated = DateTime.Now;
+            
             await _context.Set<T>().AddAsync(entity);
             return await _context.SaveChangesAsync();
         }
 
         public async Task<T> Update(int id, T entity)
         {
+            entity.DateUpdated = DateTime.Now;
+
             _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();
             return entity;
