@@ -7,6 +7,8 @@ using VehicleWebApi.DAL.Context;
 using VehicleWebApi.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using VehicleWebApi.DAL.Repositories;
+using AutoMapper;
+using VehicleWebApi.DTO.DTO;
 
 namespace VehicleWebApi.Controllers
 {
@@ -15,10 +17,12 @@ namespace VehicleWebApi.Controllers
     public class VehiclesController : Controller
     {
         private readonly IModelRepository _modelRepository;
+        private readonly IMapper _mapper;
 
-        public VehiclesController(IModelRepository modelRepository)
+        public VehiclesController(IModelRepository modelRepository, IMapper mapper)
         {
             this._modelRepository = modelRepository;
+            this._mapper = mapper;
         }
 
         /// <summary>
@@ -26,9 +30,10 @@ namespace VehicleWebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Model>>> Get()
+        public async Task<ActionResult<IEnumerable<ModelDto>>> Get()
         {
-            return Ok(await this._modelRepository.GetAll().ToListAsync());
+            var models = await this._modelRepository.GetAll().ToListAsync();
+            return _mapper.Map<List<Model>, List<ModelDto>>(models);
         }
 
         /// <summary>
@@ -37,13 +42,13 @@ namespace VehicleWebApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Model>> Get(int id)
+        public async Task<ActionResult<ModelDto>> Get(int id)
         {
             var model = await this._modelRepository.GetById(id);
             if (model == null)
                 return BadRequest("Record wasn't found");
 
-            return Ok(model);
+            return Ok(_mapper.Map<ModelDto>(model));
         }
 
         /// <summary>
@@ -52,9 +57,9 @@ namespace VehicleWebApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Model>> Add(Model model)
+        public async Task<ActionResult<ModelDto>> Add(ModelDto model)
         {
-            return Ok(await this._modelRepository.Create(model));
+            return Ok(await this._modelRepository.Create(_mapper.Map<Model>(model)));
         }
 
         /// <summary>
@@ -64,12 +69,12 @@ namespace VehicleWebApi.Controllers
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody]Model model)
+        public async Task<IActionResult> Update(int id, [FromBody]ModelDto model)
         {
             if (id != model.Id)
                 return BadRequest("Ids do not match");
 
-            return Ok(await this._modelRepository.Update(id, model));
+            return Ok(await this._modelRepository.Update(id, _mapper.Map<Model>(model)));
         }
 
         

@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleWebApi", "VehicleWebApi\VehicleWebApi.csproj", "{516EB274-06D7-46F7-8788-C70B6FE14966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleWebApi.DAL", "VehicleWebApi.DAL\VehicleWebApi.DAL.csproj", "{54DA5F6A-0423-4DB1-90ED-9EF28F0440F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleWebApi.DAL", "VehicleWebApi.DAL\VehicleWebApi.DAL.csproj", "{54DA5F6A-0423-4DB1-90ED-9EF28F0440F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleWebApi.DTO", "VehicleWebApi.DTO\VehicleWebApi.DTO.csproj", "{BE42D3B3-0C13-460D-99E5-B562E59C436C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{54DA5F6A-0423-4DB1-90ED-9EF28F0440F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54DA5F6A-0423-4DB1-90ED-9EF28F0440F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54DA5F6A-0423-4DB1-90ED-9EF28F0440F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE42D3B3-0C13-460D-99E5-B562E59C436C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE42D3B3-0C13-460D-99E5-B562E59C436C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE42D3B3-0C13-460D-99E5-B562E59C436C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE42D3B3-0C13-460D-99E5-B562E59C436C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

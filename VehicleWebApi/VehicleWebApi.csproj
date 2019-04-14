@@ -9,12 +9,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VehicleWebApi.DAL\VehicleWebApi.DAL.csproj" />
+    <ProjectReference Include="..\VehicleWebApi.DTO\VehicleWebApi.DTO.csproj" />
   </ItemGroup>
 
 </Project>
