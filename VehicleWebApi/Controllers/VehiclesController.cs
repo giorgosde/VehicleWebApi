@@ -72,6 +72,8 @@ namespace VehicleWebApi.Controllers
             if (id != model.Id)
                 return BadRequest("Ids do not match");
 
+            _context.Entry(model).State = EntityState.Modified;
+
             return Ok(await _context.SaveChangesAsync());
         }
 
