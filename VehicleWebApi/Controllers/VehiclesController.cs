@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using VehicleWebApi.DAL.Context;
 using VehicleWebApi.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using VehicleWebApi.DAL.Repositories;
 
 namespace VehicleWebApi.Controllers
 {
@@ -13,11 +14,11 @@ namespace VehicleWebApi.Controllers
     [ApiController]
     public class VehiclesController : Controller
     {
-        private readonly VehicleContext _context;
+        private readonly IModelRepository _modelRepository;
 
-        public VehiclesController(VehicleContext context)
+        public VehiclesController(IModelRepository modelRepository)
         {
-            this._context = context;
+            this._modelRepository = modelRepository;
         }
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace VehicleWebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Model>>> Get()
         {
-            return Ok(await _context.Models.ToListAsync());
+            return Ok(await this._modelRepository.GetAll().ToListAsync());
         }
 
         /// <summary>
@@ -38,10 +39,9 @@ namespace VehicleWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Model>> Get(int id)
         {
-            var model = await _context.Models.FindAsync(id);
-
+            var model = await this._modelRepository.GetById(id);
             if (model == null)
-                return NotFound("Model not found");
+                return BadRequest("Record wasn't found");
 
             return Ok(model);
         }
@@ -54,10 +54,7 @@ namespace VehicleWebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Model>> Add(Model model)
         {
-            _context.Models.Add(model);
-            await _context.SaveChangesAsync();
-
-            return Ok(model);
+            return Ok(await this._modelRepository.Create(model));
         }
 
         /// <summary>
@@ -72,9 +69,7 @@ namespace VehicleWebApi.Controllers
             if (id != model.Id)
                 return BadRequest("Ids do not match");
 
-            _context.Entry(model).State = EntityState.Modified;
-
-            return Ok(await _context.SaveChangesAsync());
+            return Ok(await this._modelRepository.Update(id, model));
         }
 
         
@@ -86,13 +81,12 @@ namespace VehicleWebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = await _context.Models.FindAsync(id);
+            var model = await _modelRepository.GetById(id);
 
             if (model == null)
                 return BadRequest("Record wasn't found");
 
-            _context.Models.Remove(model);
-            return Ok(await _context.SaveChangesAsync());
+            return Ok(await this._modelRepository.Delete(id));
         }
 
     }

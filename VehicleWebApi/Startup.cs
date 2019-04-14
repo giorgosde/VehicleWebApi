@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using VehicleWebApi.DAL.Context;
+using VehicleWebApi.DAL.Repositories;
 
 namespace VehicleWebApi
 {
@@ -27,6 +28,10 @@ namespace VehicleWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IModelRepository, ModelRepository>();
+
+
             services.AddDbContext<VehicleContext>(opt =>
                 opt.UseInMemoryDatabase("VehicleDB"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
