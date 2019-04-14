@@ -67,7 +67,7 @@ namespace VehicleWebApi.Controllers
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Model model)
+        public async Task<IActionResult> Update(int id, [FromBody]Model model)
         {
             if (id != model.Id)
                 return BadRequest("Ids do not match");
